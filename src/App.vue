@@ -43,9 +43,9 @@ export default{
         {img:'../image/orange.png', title:"Orange",item:63 +"items", bgColor:'#FFF3FF'},
       ],
       Promotions:[
-        {bgImage:'../image/bg1.jpg',bgColorSecond:'#F0E8D5',TittlePromotion:"Everyday Fresh & Clean with Our Products"},
-        {bgImage:'../image/bg2.png',bgColorSecond:'#F3E8E8',TittlePromotion:"Make your Breakfast Healthy and Easy"},
-        {bgImage:'../image/bg3.jpg',bgColorSecond:'#E7EAF3',TittlePromotion:"The best Organic Products Online"},
+        {bgImage:'../image/backgroundg1.jpg',bgColorSecond:'#F0E8D5',TittlePromotion:"Everyday Fresh & Clean with Our Products"},
+        {bgImage:'../image/backfroundg2.png',bgColorSecond:'#F3E8E8',TittlePromotion:"Make your Breakfast Healthy and Easy"},
+        {bgImage:'../image/background3.jpg',bgColorSecond:'#E7EAF3',TittlePromotion:"The best Organic Products Online"},
       ]
     };
   },
