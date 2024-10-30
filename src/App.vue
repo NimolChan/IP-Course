@@ -29,6 +29,7 @@ export default{
     Promotion,
   },
   data(){
+    
     return{
       products:[
         {img:'../image/buger.png', title:"Cake & Mile",item:14 +"items",bgColor:'#F2FCE4'},
