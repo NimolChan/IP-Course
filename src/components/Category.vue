@@ -44,6 +44,7 @@ export default {
         height: 40%;
         border-radius: 10px;
         padding: 3px;
+        
     }
     .card-text h4{
         display: flex;
