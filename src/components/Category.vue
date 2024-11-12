@@ -1,56 +1,62 @@
 <template>
-    <div class="card" :style="{backgroundColor:bgColor}">
-        <div class="card-img">
-            <img :src="imgSrc" :alt="title">
+    <div class="cat" :style="{backgroundColor:color}">
+        <div class="cat-img">
+            <img :src="image" :alt="title">
         </div>
-        <div class="card-text">
-            <h4>{{title }}</h4>
-            <p>{{ items }}</p>
+        <div class="cat-text">
+            <h4>{{name }}</h4>
+            <p>{{ productCount }}</p>
         </div>
     </div>
 </template>
 
 <script>
+
+
+
 export default {
-    name: "Category",
+    name:"categories",
     props: {
-        imgSrc:String,
-        title: String,
-        items: String,
-        bgColor: String
+        id: Number,
+        image:String,
+        name: String,
+        productCount: String,
+        color: String
     },
-}
+
+  };
+
 </script>
 
 <style  scoped>
-    .card{
+    .cat{
         color: black;
         border-radius: 10px;
         border: 1px solid green;
         width: 6.5rem;
         height: 8.5rem;
     }
-    .card-img{
+    .cat-img{
         width: 100%;
         height: 60%;
         border-radius: 10px;
     }
-    .card-img img{
+    .cat-img img{
         width: 100%;
         height: 100%;
     }
-    .card-text{
+    .cat-text{
         width: 100%;
         height: 40%;
         border-radius: 10px;
         padding: 3px;
         
     }
-    .card-text h4{
+    .cat-text h4{
         display: flex;
         justify-content: center;
     }
-    .card-text p{
+    .cat-text p{
         display: flex;
         justify-content: center;
         opacity: 0.8;
