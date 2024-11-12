@@ -43,10 +43,17 @@ export default{
         // {img:'../image/sack.png', title:"Cake & Mile",item:54 +"items", bgColor:'#F2FCE4'},
         // {img:'../image/orange.png', title:"Orange",item:63 +"items", bgColor:'#FFF3FF'},
       ],
+<<<<<<< HEAD
       promotions:[
         // {bgImage:'../image/background1.jpg',bgColorSecond:'#F0E8D5',TittlePromotion:"Everyday Fresh & Clean with Our Products"},
         // {bgImage:'../image/background2.png',bgColorSecond:'#F3E8E8',TittlePromotion:"Make your Breakfast Healthy and Easy"},
         // {bgImage:'../image/background3.jpg',bgColorSecond:'#E7EAF3',TittlePromotion:"The best Organic Products Online"},
+=======
+      Promotions:[
+        {bgImage:'../image/background1.jpg',bgColorSecond:'#F0E8D5',TittlePromotion:"Everyday Fresh & Clean with Our Products"},
+        {bgImage:'../image/background2.png',bgColorSecond:'#F3E8E8',TittlePromotion:"Make your Breakfast Healthy and Easy"},
+        {bgImage:'../image/background3.jpg',bgColorSecond:'#E7EAF3',TittlePromotion:"The best Organic Products Online"},
+>>>>>>> b51ba2cef804076e622567d505ebab61a34e4379
       ]
     };
   },
