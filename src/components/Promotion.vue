@@ -1,16 +1,9 @@
 <template>
-<<<<<<< HEAD
+
     <div  class="Promo" :style="{backgroundColor: Color}">
         <img :src="image" alt="">
         <h3>{{ title }}</h3>
         <Button @click="shopNow(Promotion)" :buttonText="'Show Now'"></Button>/>
-=======
-    <div  class="Promo" :style="{backgroundColor: bgColorSecond}">
-        <img :src="bgImage" alt="">
-        <h3>{{ TittlePromotion }}</h3>
-        <Button @click="shopNow(Promotion)" :buttonText='Show Now'></Button>/>
->>>>>>> b51ba2cef804076e622567d505ebab61a34e4379
-
     </div>
 </template>
 
@@ -28,18 +21,12 @@ export default {
         title: String,
 
     },
-<<<<<<< HEAD
     methods: {
         shopNow() {
             alert("Let's Shop: " + this.title);
         }
-    }
-=======
-    methods:{
-        shopNow(Promotion){
-            alert("Let's shop: "+this.TittlePromotion
->>>>>>> b51ba2cef804076e622567d505ebab61a34e4379
 }
+    }
 </script>
 
 <style scoped>
@@ -81,8 +68,4 @@ export default {
         left: 10%;
         width: 50%;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> b51ba2cef804076e622567d505ebab61a34e4379
 </style>

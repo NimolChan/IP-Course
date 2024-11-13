@@ -1,88 +1,96 @@
 <template>
   <div class="container">
+    <div class="menu">
+      <Menu :menuItems="productStore.groups" />
+    </div>
+
     <div class="row1">
-      <Category v-for="(categories, index) in categories"
-      :key="index"
-      :image="categories.image"
-      :name="categories.name"
-      :productCount="categories.productCount"
-      :color="categories.color"
+      <Category
+        v-for="(category, index) in productStore.categories"
+        :key="index"
+        :image="category.image"
+        :name="category.name"
+        :productCount="category.productCount"
+        :color="category.color"
       />
     </div>
+
     <div class="row2">
-      <Promotion v-for="(promotions,second) in promotions"
-      :key="second"
-      :image="promotions.image"
-      :color="promotions.color"
-      :title="promotions.title"
+      <Promotion
+        v-for="(promotion, index) in productStore.promotions"
+        :key="index"
+        :image="promotion.image"
+        :color="promotion.color"
+        :title="promotion.title"
       />
+    </div>
+
+    <div>
+      <Product />
     </div>
   </div>
 </template>
+
 <script>
 import Category from './components/Category.vue';
+import Product from './components/Product.vue';
+import Menu from './components/Menu.vue';
 import Promotion from './components/Promotion.vue';
-import axis from 'axios';
-export default{
+import { useProductStore } from './stores/productStore';
+import { onMounted } from 'vue';
+
+export default {
   name: 'App',
   components: {
     Category,
     Promotion,
+    Menu,
+    Product
   },
-  data(){
-    return{
-      categories:[
-        // {img:'../image/buger.png', title:"Cake & Mile",item:14 +"items",bgColor:'#F2FCE4'},
-        // {img:'../image/peach.png', title:"Peach",item:17 +"items", bgColor:'#FFFCEB'},
-        // {img:'../image/kiwi.png', title:"Oganic Kiwi",item:68 +"items", bgColor:'#ECFFEC'},
-        // {img:'../image/apple.png', title:"Red Apple",item:34 +"items", bgColor:'#FEEFEA'},
-        // {img:'../image/snac.png', title:"Snack",item:25 +"items", bgColor:'#FFF3EB'},
-        // {img:'../image/plum.png', title:"Black plum",item:10 +"items", bgColor:'#FFF3FF'},
-        // {img:'../image/vegatable.png', title:"Vegetable",item:65 +"items", bgColor:'#F2FCE4'},
-        // {img:'../image/headphone.png', title:"Headphone",item:33 +"items", bgColor:'#FFFCEB'},
-        // {img:'../image/sack.png', title:"Cake & Mile",item:54 +"items", bgColor:'#F2FCE4'},
-        // {img:'../image/orange.png', title:"Orange",item:63 +"items", bgColor:'#FFF3FF'},
-      ],
-<<<<<<< HEAD
-      promotions:[
-        // {bgImage:'../image/background1.jpg',bgColorSecond:'#F0E8D5',TittlePromotion:"Everyday Fresh & Clean with Our Products"},
-        // {bgImage:'../image/background2.png',bgColorSecond:'#F3E8E8',TittlePromotion:"Make your Breakfast Healthy and Easy"},
-        // {bgImage:'../image/background3.jpg',bgColorSecond:'#E7EAF3',TittlePromotion:"The best Organic Products Online"},
-=======
-      Promotions:[
-        {bgImage:'../image/background1.jpg',bgColorSecond:'#F0E8D5',TittlePromotion:"Everyday Fresh & Clean with Our Products"},
-        {bgImage:'../image/background2.png',bgColorSecond:'#F3E8E8',TittlePromotion:"Make your Breakfast Healthy and Easy"},
-        {bgImage:'../image/background3.jpg',bgColorSecond:'#E7EAF3',TittlePromotion:"The best Organic Products Online"},
->>>>>>> b51ba2cef804076e622567d505ebab61a34e4379
-      ]
+  setup() {
+    const productStore = useProductStore();
+
+   
+    onMounted(async () => {
+    await productStore.fetchGroups();
+    console.log("Groups:", productStore.groups);
+
+    await productStore.fetchProducts();
+    console.log("Products:", productStore.products);
+
+    await productStore.fetchCategories();
+    console.log("Categories:", productStore.categories);
+
+    await productStore.fetchPromotions();
+    console.log("Promotions:", productStore.promotions);
+});
+
+    
+    return {
+      productStore, 
     };
   },
-  methods: {
-      async getCategories() {
-        const response = await axis.get('http://localhost:3000/api/categories')
-        const categories = response.data;
-        this.categories =categories;
-      },
-      async getPromotions() {
-        const response = await axis.get('http://localhost:3000/api/promotions');
-        const promotions = response.data;
-        this.promotions = promotions;
-      }
-    },
-    async mounted() {
-      this.getCategories();
-      this.getPromotions();
-    }
-  };
+};
 </script>
 
 <style>
-.container{
+.container {
   width: 75rem;
-  height: 35rem;
   background-color: white;
   padding: 1rem;
+  margin: auto;
 }
+
+.menu {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
 .row1{
   width: 100%;
   height: 30%;
@@ -96,4 +104,12 @@ export default{
   display: flex;
   justify-content: space-between;
 }
+.row1 .cat, .row2 .promotion {
+  transition: transform 0.2s ease;
+}
+
+.row1 .cat:hover, .row2 .promotion:hover {
+  transform: translateY(-5px);
+}
+
 </style>

@@ -1,35 +1,29 @@
 <template>
-    <div class="cat" :style="{backgroundColor:color}">
-        <div class="cat-img">
-            <img :src="image" :alt="title">
-        </div>
-        <div class="cat-text">
-            <h4>{{name }}</h4>
-            <p>{{ productCount }}</p>
-        </div>
+  <div class="cat" :style="{ backgroundColor: color }">
+    <div class="cat-img">
+      <img :src="image" :alt="name" />
     </div>
+    <div class="cat-text">
+      <h4>{{ name }}</h4>
+      <p>{{ productCount }} items</p>
+    </div>
+  </div>
 </template>
 
 <script>
-
-
-
 export default {
-    name:"categories",
-    props: {
-        id: Number,
-        image:String,
-        name: String,
-        productCount: String,
-        color: String
-    },
-
-  };
-
+  name: "Category",
+  props: {
+    image: String,
+    name: String,
+    productCount: Number,
+    color: String
+  }
+};
 </script>
 
-<style  scoped>
-    .cat{
+<style scoped>
+ .cat{
         color: black;
         border-radius: 10px;
         border: 1px solid green;
@@ -62,4 +56,5 @@ export default {
         opacity: 0.8;
         font-size: 13px;
     }
+
 </style>
