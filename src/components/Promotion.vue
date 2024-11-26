@@ -37,16 +37,15 @@ export default {
         margin-top: 2rem;
         border-radius: 15px;
         position: relative;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
+        padding: 1.5rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
     .Promo img {
         width:auto;
-        height: 50%;
-         object-fit: contain;
+        height: 40%;
+        object-fit: contain;
         position: absolute;
         right: 10px;
         bottom: 10px;
@@ -63,6 +62,8 @@ export default {
 
     .Promo h3 {
         color: black;
+        font-size: 1.3rem;
+        font-weight: 450;
         position: absolute;
         top: 15%;
         left: 10%;

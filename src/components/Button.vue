@@ -5,7 +5,6 @@
 
 <script>
 export default {
-    // name: "Button",
         props: {
             buttonText: {
                 type: String,
@@ -26,7 +25,7 @@ export default {
         margin-top: 45%;
         position: absolute;
         border: none;
-        margin-left: 10%;
+        margin-left: 10px;
     }
     .shop-button:hover{
         background-color: #FDC040;

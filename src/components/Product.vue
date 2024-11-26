@@ -1,118 +1,131 @@
 <template>
-  <div class="product-list">
-    <h2>Popular Products</h2>
-    <ul class="product-grid">
-      <li v-for="product in product" :key="product.name" class="product-item">
-        <div v-if="product.promotionAsPercentage > 0" class="badge discount">
-          -{{ product.promotionAsPercentage }}%
+  <div class="product-container">
+    <div class="product-item">
+      <div v-if="promotionAsPercentage > 0" class="badge discount">
+        -{{ promotionAsPercentage }}%
+      </div>
+      <div v-else-if="isHot" class="badge hot">Hot</div>
+      <div v-else-if="isSale" class="badge sale">Sale</div>
+
+      <img :src="image" :alt="name" class="product-image" />
+
+      <div class="product-details">
+        <h4 class="product-brand">{{ brand }}</h4>
+        <h3 class="product-name">{{ name }}</h3>
+        <div class="product-rating">
+          <span>⭐⭐⭐⭐ {{ rating }}</span>
         </div>
-        <div v-else-if="product.isHot" class="badge hot">Hot</div>
-        <div v-else-if="product.isSale" class="badge sale">Sale</div>
+        <p class="product-size">{{ size }}</p>
+      </div>
 
-        <img :src="product.image" :alt="product.name" class="product-image" />
-
-
-        <div class="product-details">
-          <h4 class="product-brand">{{ product.brand }}</h4>
-          <h3 class="product-name">{{ product.name }}</h3>
-          <p class="product-size">{{ product.size }}</p>
-          <div class="product-rating">
-            <span>⭐ {{ product.rating }}</span>
-          </div>
+      <div class="product-footer">
+        <div class="product-price">
+          <span class="discounted-price">
+            ${{ (price * (1 - promotionAsPercentage / 100)).toFixed(2) }}
+          </span>
+          <span v-if="promotionAsPercentage > 0" class="original-price">
+            ${{ price.toFixed(2) }}
+          </span>
         </div>
-
-   
-        <div class="product-footer">
-          <div class="product-price">
-            <span v-if="product.promotionAsPercentage > 0" class="original-price">
-              ${{ product.price.toFixed(2) }}
-            </span>
-            <span class="discounted-price">
-              ${{ (product.price * (1 - product.promotionAsPercentage / 100)).toFixed(2) }}
-            </span>
-          </div>
-          <button class="add-button">Add +</button>
-        </div>
-      </li>
-    </ul>
+        <button class="add-button">Add +</button>
+      </div>
+    </div>
   </div>
 </template>
+
 <script>
 export default {
   name: 'Product',
   props: {
-    products: {
-      type: Array,
-      required: true
-    }
-  }
+    image: String,
+    name: String,
+    price: Number,
+    size: String,
+    rating: Number,
+    promotionAsPercentage: Number,
+    categoryId: Number,
+    instock: Number,
+    countSold: Number,
+    group: String,
+  },
 };
 </script>
+
 <style scoped>
-.product-list {
+.product-container {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
-}
-
-.product-list h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
+  width: 250px; 
 }
 
 .product-item {
+  width: 100%;
+  height: 100%;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 1rem;
   background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
   position: relative;
+  margin-bottom: 1rem;
 }
 
-.product-item:hover {
-  transform: translateY(-5px);
+
+.discounted-price {
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.add-button {
+  background-color: #2dd3af;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .badge {
   position: absolute;
   top: 10px;
-  left: 10px;
-  padding: 5px 8px;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 0.75rem;
+  left: 0.4px;
+  padding: 5px 7px;
+  border-radius: 0 10px 10px 0 ;
+  color: #fcfcfc;
+  font-size: 0.6rem;
   font-weight: 600;
 }
 
 .discount {
-  background-color: #28a745; /* Green for discount */
+  background-color: #28a745;
 }
 
 .hot {
-  background-color: #ff4d4f; /* Red for hot items */
+  background-color: #ff4d4f;
 }
 
 .sale {
-  background-color: #ffa500; /* Orange for sale items */
+  background-color: #ffa500;
 }
 
 .product-image {
   width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-}
+  height: 35%;
+  object-fit: contain;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  
+}  
 
 .product-details {
-  text-align: center;
-  margin-top: 1rem;
+  text-align: left;
+  margin-top: 1.5rem;
 }
 
 .product-brand {
@@ -122,32 +135,35 @@ export default {
 }
 
 .product-name {
-  font-size: 1rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #333;
-  margin: 0.25rem 0;
+  margin: 0.25rem;
 }
 
 .product-size {
   font-size: 0.85rem;
   color: #666;
+  margin-bottom: 0.5rem;
 }
 
 .product-rating {
   font-size: 0.85rem;
-  color: #ffa500; /* Star color */
+  color: #ffa500;
+  display: flex;
+  align-items: center;
 }
 
 .product-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
+  margin: 2rem 0 1rem 0;
 }
 
 .product-price {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   color: #28a745;
 }
 
@@ -155,28 +171,5 @@ export default {
   text-decoration: line-through;
   font-size: 0.85rem;
   color: #999;
-  margin-right: 0.5rem;
-}
-
-.discounted-price {
-  color: #28a745;
-  font-weight: bold;
-}
-
-.add-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.add-button:hover {
-  background-color: #0056b3;
 }
 </style>
-
-

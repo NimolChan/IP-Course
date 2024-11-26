@@ -1,12 +1,13 @@
 <template>
   <div class="container">
     <div class="menu">
-      <Menu :menuItems="productStore.groups" />
+      <h2 class="section-title">Featured Categories</h2>
+      <Menu :menuItems="groups" />
     </div>
 
     <div class="row1">
       <Category
-        v-for="(category, index) in productStore.categories"
+        v-for="(category, index) in categories"
         :key="index"
         :image="category.image"
         :name="category.name"
@@ -17,7 +18,7 @@
 
     <div class="row2">
       <Promotion
-        v-for="(promotion, index) in productStore.promotions"
+        v-for="(promotion, index) in promotions"
         :key="index"
         :image="promotion.image"
         :color="promotion.color"
@@ -25,19 +26,36 @@
       />
     </div>
 
-    <div>
-      <Product />
+    <div class="menu">
+      <h2 class="section-title">Popular Products</h2>
+      <Menu :menuItems="groups" />
+    </div>
+    <div class="row3">
+      <Product
+        v-for="(product, index) in popularProducts"
+        :key="index"
+        :image="product.image"
+        :name="product.name"
+        :rating="product.rating"
+        :size="product.size"
+        :price="product.price"
+        :promotionAsPercentage="product.promotionAsPercentage"
+        :categoryId="product.categoryId"
+        :instock="product.instock"
+        :countSold="product.countSold"
+        :group="product.groups"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { onMounted, computed } from 'vue';
+import { useProductStore } from './stores/productStore';
 import Category from './components/Category.vue';
 import Product from './components/Product.vue';
 import Menu from './components/Menu.vue';
 import Promotion from './components/Promotion.vue';
-import { useProductStore } from './stores/productStore';
-import { onMounted } from 'vue';
 
 export default {
   name: 'App',
@@ -45,37 +63,49 @@ export default {
     Category,
     Promotion,
     Menu,
-    Product
+    Product,
   },
   setup() {
     const productStore = useProductStore();
 
-   
     onMounted(async () => {
-    await productStore.fetchGroups();
-    console.log("Groups:", productStore.groups);
+      try {
+        await Promise.all([
+          productStore.fetchGroups(),
+          productStore.fetchProducts(),
+          productStore.fetchCategories(),
+          productStore.fetchPromotions(),
+        ]);
 
-    await productStore.fetchProducts();
-    console.log("Products:", productStore.products);
 
-    await productStore.fetchCategories();
-    console.log("Categories:", productStore.categories);
+        console.log("Categories:", productStore.categories);
+        console.log("Promotions:", productStore.promotions);
+        console.log("Groups:", productStore.groups);
+        console.log("Products:", productStore.products);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    });
 
-    await productStore.fetchPromotions();
-    console.log("Promotions:", productStore.promotions);
-});
+   
+        const groups = computed(() => productStore.groups);
+        const categories = computed(() => productStore.categories);
+        const promotions = computed(() => productStore.promotions);
+        const popularProducts = computed(() => productStore.getPopularProducts);
 
-    
     return {
-      productStore, 
+      groups,
+      categories,
+      promotions,
+      popularProducts,
     };
   },
 };
 </script>
 
-<style>
+<style scoped>
 .container {
-  width: 75rem;
+  width: 100%;
   background-color: white;
   padding: 1rem;
   margin: auto;
@@ -83,33 +113,30 @@ export default {
 
 .menu {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
+  margin-bottom: 1.5rem;
 }
 
-.row1{
+.row1,
+.row2 {
   width: 100%;
-  height: 30%;
-  padding: 7px;
   display: flex;
   justify-content: space-between;
-}
-.row2{
-  width: 100%;
-  height: 70%;
-  display: flex;
-  justify-content: space-between;
-}
-.row1 .cat, .row2 .promotion {
-  transition: transform 0.2s ease;
+  gap: 1rem;
 }
 
-.row1 .cat:hover, .row2 .promotion:hover {
-  transform: translateY(-5px);
+.row3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
 }
 
+.section-title {
+  color: black;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
 </style>
