@@ -7,7 +7,7 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      */
     public function getProducts()
@@ -22,13 +22,13 @@ class ProductController extends Controller
     public function createProduct(Request $request)
     {
         $imagePaths = [];
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
-            // Store each image in the public/products directory
-            $path = $image->store('products', 'public');
-            $imagePaths[] = $path; // Store the file path in an array
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                // Store each image in the public/products directory
+                $path = $image->store('products', 'public');
+                $imagePaths[] = $path; // Store the file path in an array
+            }
         }
-    }
 
         $product = Product::create([
             'name' => $request->name,
@@ -39,7 +39,7 @@ class ProductController extends Controller
         ]);
 
 
-        if(!$product){
+        if (!$product) {
             return response()->json(['message' => 'Error creating product'], 400);
         }
 
@@ -49,7 +49,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function getProduct( $productId)
+    public function getProduct($productId)
     {
         $product = Product::with('category')->find($productId);
 
@@ -71,7 +71,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function deleteProduct( $productId)
+    public function deleteProduct($productId)
     {
         $product = Product::find($productId);
 

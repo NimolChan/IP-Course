@@ -57,3 +57,10 @@ php artisan cache:clear
 exit
 docker-compose restart
 ```
+
+### TP02 Testing 
+```
+$ php artisan tinker
+App\Models\Customer::all();
+App\Models\Product::all();
+```
