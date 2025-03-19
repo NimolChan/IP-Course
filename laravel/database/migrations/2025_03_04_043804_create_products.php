@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double('pricing');
             $table->text('description')->nullable();
             $table->jsonb('images')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');

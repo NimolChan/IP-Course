@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('product_id')->unsigned();
             $table->bigInteger('customer_id')->unsigned();
             $table->integer('quantity')->unsigned()->default(1);
+            $table->softDeletes();
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('customer_id')->references('id')->on('customers');

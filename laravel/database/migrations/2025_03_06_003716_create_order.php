@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('customer_id')->unsigned();
             $table->timestamp('order_date')->nullable();
             $table->decimal('total_price', 10, 2);
+            $table->softDeletes();
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();
         });
@@ -26,6 +27,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order');
+        Schema::table('carts', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
