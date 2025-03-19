@@ -4,34 +4,48 @@ namespace App\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ActivityLog;
+
 class ModelActivityObserver {
-    public function created(Model $model) {
+    /**
+     * Handle the "created" event.
+     */
+    public function created(Model $model): void
+    {
         ActivityLog::create([
-            'model' => get_class($model),
+            'model'    => get_class($model),
             'model_id' => $model->id,
-            'action' => 'created',
-            'changes' => json_encode($model->toArray()),
+            'action'   => 'created',
+            'changes'  => json_encode($model->toArray()),
         ]);
     }
 
-    public function updated(Model $model) {
+    /**
+     * Handle the "updated" event.
+     */
+    public function updated(Model $model): void
+    {
         ActivityLog::create([
-            'model' => get_class($model),
+            'model'    => get_class($model),
             'model_id' => $model->id,
-            'action' => 'updated',
-            'changes' => json_encode([
+            'action'   => 'updated',
+            'changes'  => json_encode([
                 'old' => $model->getOriginal(),
                 'new' => $model->getChanges(),
             ]),
         ]);
     }
 
-    public function deleted(Model $model) {
+    /**
+     * Handle the "deleted" event (soft delete).
+     */
+    public function deleted(Model $model): void
+    {
         ActivityLog::create([
-            'model' => get_class($model),
+            'model'    => get_class($model),
             'model_id' => $model->id,
-            'action' => 'deleted',
-            'changes' => json_encode($model->toArray()),
+            'action'   => 'deleted',
+            'changes'  => json_encode($model->toArray()),
         ]);
     }
+
 }
