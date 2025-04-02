@@ -33,6 +33,5 @@ $order = App\Models\Order::find(1);
 $order->delete();
 
 // Retrieve the deleted order with `withTrashed()`
-$deletedOrder = App\Models\Order::withTrashed()->find(1);
+$order = App\Models\Order::withTrashed()->find(1);
 
-dd($deletedOrder->deleted_at); // Should now show a timestamp
