@@ -2,13 +2,21 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
     /**
-     * A basic test example.
+     * A basic feature test example.
+     * Test ID : Cart-001
+     * Description :
+     * Precondition : none
+     * Test Steps :
+     * Test Data:
+     * Expected Result :
+     * Actual Result :
+     * Status :
+     * Remarks :
      */
     public function test_the_application_returns_a_successful_response(): void
     {

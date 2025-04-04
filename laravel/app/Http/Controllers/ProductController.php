@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -21,21 +22,29 @@ class ProductController extends Controller
      */
     public function createProduct(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'pricing' => 'required|numeric',
+            'description' => 'nullable|string',
+            'images.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048' // Validate images
+        ]);
+
         $imagePaths = [];
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
-            // Store each image in the public/products directory
-            $path = $image->store('products', 'public');
-            $imagePaths[] = $path; // Store the file path in an array
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                // Store each image in the public/products directory
+                $path = $image->store('products', 'public');
+                $imagePaths[] = $path; // Store the file path in an array
+            }
         }
-    }
 
         $product = Product::create([
-            'name' => $request->name,
-            'category_id' => $request->category_id,
-            'pricing' => $request->pricing,
-            'description' => $request->description,
-            'images' => $imagePaths
+        'name' => $validated['name'],
+        'category_id' => $validated['category_id'],
+        'pricing' => $validated['pricing'],
+        'description' => $validated['description'] ?? null,
+        'images' => json_encode($imagePaths),
         ]);
 
 
@@ -75,6 +84,11 @@ class ProductController extends Controller
     {
         $product = Product::find($productId);
 
+        if ($product->images) {
+            foreach ($product->images as $image) {
+                Storage::disk('public')->delete($image);
+            }
+        }
 
         $product->delete();
         return response()->json(['message' => 'Product deleted successfully']);

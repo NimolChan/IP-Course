@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function getCategories()
     {
         $categories = Category::all();
-        return response()->json($categories);
+        return response()->json(['message' => 'Get all categories', 'categories' => $categories], 200);
     }
 
     /**
@@ -21,10 +21,16 @@ class CategoryController extends Controller
      */
     public function createCategory(Request $request)
     {
-        $category = Category::create([
-            'name' => $request->name,
+        $validatedData = $request->validate([
+            'name' => 'required|unique:categories,name',
         ]);
-        return response()->json(['message' => 'Creating a new category', 'category' => $category]);
+
+        $category = Category::create([
+            'name' => $validatedData['name'],
+        ]);
+
+
+        return response()->json(['message' => 'Creating a new category', 'category' => $category], 201);
     }
 
     /**
@@ -33,6 +39,11 @@ class CategoryController extends Controller
     public function getCategory( $categoryId)
     {
         $category = Category::find($categoryId);
+
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
         return response()->json($category);
     }
 
@@ -43,13 +54,31 @@ class CategoryController extends Controller
     {
         $category = Category::find($categoryId);
 
-        $category->update($request -> all());
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'name' => 'required|unique:categories,name,' . $categoryId,
+        ]);
+
+        $category->update($validatedData);
         return response()->json(['message' => 'Category updated successfully', 'category' => $category]);
     }
 
     public function deleteCategory( $categoryId)
     {
         $category = Category::find($categoryId);
+
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
+        // Prevent deletion if there are associated products
+        if ($category->products()->count() > 0) {
+            return response()->json(['error' => 'Category has products and cannot be deleted'], 400);
+        }
+
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully']);
     }
