@@ -65,7 +65,7 @@
 
         <div class="card">
             <div class="card-header ">
-                Upload Image to MinIO
+                Upload Image to MinIO (server)
             </div>
             <div class="card-body">
                 <form action="{{ route('upload.minio') }}" method="POST" enctype="multipart/form-data">
