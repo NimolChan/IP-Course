@@ -76,7 +76,7 @@ class CategoryController extends Controller
 
         // Prevent deletion if there are associated products
         if ($category->products()->count() > 0) {
-            return response()->json(['error' => 'Category has products and cannot be deleted'], 400);
+            return response()->json(['error' => 'Category has products and cannot be deleted'], 200);
         }
 
         $category->delete();
