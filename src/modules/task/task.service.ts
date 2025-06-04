@@ -24,14 +24,14 @@ export class TasksService {
     const user = await this.userRepo.findOne({
       where: { id: taskData.userId },
     });
-
+// throw exception if user not found
     if (!user) {
       console.error(
         `❌ Task creation failed: User with ID ${taskData.userId} not found`
       );
       throw new NotFoundException(`User with ID ${taskData.userId} not found`);
     }
-
+// Finds a specific task by id.
     const task = this.taskRepo.create({
       name: taskData.name,
       description: taskData.description,
